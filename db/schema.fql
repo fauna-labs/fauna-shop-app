@@ -1,0 +1,74 @@
+// Create a LoggedIn role
+// Server Key = fnAE-JyjqtAAUwrZnO7B124w1PTRJ3ONoUo8bWa1
+
+// fnAE-Kbyd0AAIUCP9xG0qist7sQnAXO3_cQs6x3T
+
+
+// Create user collection
+Collection.create({ name: "User"})
+
+
+// Create a Role
+let loggedInRole = Role.create({
+  name: "logged_in",
+  membership: {
+    resource: "User"
+  },
+  privileges: [
+    {
+     resource: "User",
+      actions: {
+        write: "(oldData, newData) => { 
+          Query.identity() == oldData.owner && oldData.owner == 
+          newData.owner 
+        }"
+      }
+    }
+  ]
+})
+
+loggedInRole
+
+// Create a public role
+
+let publicRole = Role.create({
+  name: "public2",
+  membership: {
+    resource: "User"
+  },
+  privileges: [
+    {
+      resource: "User",
+      actions: {
+        read: true,
+        create: true,
+      }
+    },
+    {
+      resource: "Credentials",
+      actions: {
+        read: true,
+        create: true,
+      }
+    }
+  ]
+})
+
+// Create a secret for the role
+Key.create({ role: "public2" })
+
+// Create a new user with the public role
+User.create({
+  name: "shadid",
+  email: "shadid12@email.com"
+})
+
+// Register with a user credentials
+Credentials.create({
+  document: User.byId("358214887058440259"),
+  password: "password"
+})
+
+// Login with a user credentials
+let person = User.byId("358219817589669921")
+Credentials.byDocument(person).login("password")
