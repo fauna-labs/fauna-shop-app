@@ -1,7 +1,7 @@
 // Create a LoggedIn role
-// Server Key = fnAE-JyjqtAAUwrZnO7B124w1PTRJ3ONoUo8bWa1
+// Server Key = fnAE-LCEXgAAUz3dNZbGmi8FpZWmGP4s74DESTsT
 
-// fnAE-Kbyd0AAIUCP9xG0qist7sQnAXO3_cQs6x3T
+// fnAE-MkyXOAAU5kTLEsPuivDcOYjsrRdv_8AIzmW
 
 
 // Create user collection
@@ -32,10 +32,7 @@ loggedInRole
 // Create a public role
 
 let publicRole = Role.create({
-  name: "public2",
-  membership: {
-    resource: "User"
-  },
+  name: "public4",
   privileges: [
     {
       resource: "User",
@@ -49,6 +46,14 @@ let publicRole = Role.create({
       actions: {
         read: true,
         create: true,
+        write: true,
+        delete: true
+      }
+    },
+    {
+      resource: "LoginUser",
+      actions: {
+        call: true
       }
     }
   ]
@@ -72,3 +77,171 @@ Credentials.create({
 // Login with a user credentials
 let person = User.byId("358219817589669921")
 Credentials.byDocument(person).login("password")
+
+// Role Stuff 
+Role.byName("public3").privileges
+
+
+
+// Create a new function 
+
+Function.create({
+  name: "AddTwo",
+  body: "x => x + 2"
+})
+
+Function.create({
+  name: "LoginUser",
+  body: "x => x + 2"
+})
+
+
+Function.create({
+  name: "Signup",
+  role: "server",
+  body: "(username, email, password) => {
+    let user = User.create({ name: username, email: email })
+    Credentials.create({ document: user, password: password })
+    user
+  }"
+})
+
+
+Function.byName("Signup").update({ 
+  role: "server",
+  body: "(username, email, password) => {
+    let user = User.create({ name: username, email: email })
+    Credentials.create({ document: user, password: password })
+    user
+  }"
+})
+
+
+Function.byName("Login").update({ 
+  role: "server",
+  body: "(email, password) => {
+    let user = User.byEmail(email).first()
+    Credentials.byDocument(user).login(password)
+  }" 
+})
+
+
+
+LoginUser("341071393701494817", "sekrit")
+
+
+
+Role.byName("public5").update({ 
+  privileges: [
+    {
+      resource: "User",
+      actions: {
+        read: true,
+        create: true,
+      }
+    },
+    {
+      resource: "Credentials",
+      actions: {
+        read: true,
+        create: true,
+        write: true,
+        delete: true
+      }
+    },
+    {
+      resource: "LoginUser",
+      actions: {
+        call: true
+      }
+    }
+  ]
+})
+
+
+// Create Product Collection
+Collection.create({ name: "Product" })
+// Create Shop Collection
+Collection.create({ name: "Shop" })
+
+
+
+Role.create({
+  name: "UnAuthenticatedRole",
+  privileges: [
+    {
+      resource: "User",
+      actions: {
+        read: true
+      }
+    },
+    {
+      resource: "Product",
+      actions: {
+        read: true
+      }
+    },
+    {
+      resource: "Shop",
+      actions: {
+        read: true
+      }
+    }
+  ]
+})
+
+  Role.byName("UnAuthenticatedRole").update({
+    privileges: [
+      {
+        resource: "User",
+        actions: {
+          read: true
+        }
+      },
+      {
+        resource: "Product",
+        actions: {
+          read: true
+        }
+      },
+      {
+        resource: "Shop",
+        actions: {
+          read: true
+        }
+      },
+      {
+        resource: "Signup",
+        actions: {
+          call: true
+        }
+      },
+      {
+        resource: "Login",
+        actions: {
+          call: true
+        }
+      }
+    ]
+  })
+
+Key.create({ role: "UnAuthRole" })
+
+
+User.definition.update({
+  indexes: {
+    byEmail: {
+      terms: [{ field: "email" }]
+    }
+  }
+})
+
+
+Function.create({
+  name: "Login",
+  role: "server",
+  body: "(email, password) => {
+    let user = User.byEmail(id).first()
+    Credentials.byDocument(user).login(password)
+  }" 
+})
