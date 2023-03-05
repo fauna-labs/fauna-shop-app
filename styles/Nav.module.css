@@ -20,9 +20,22 @@
   @apply hover:bg-gray-200 rounded-r-lg hover:border hover:border-gray-800;
 }
 
-@media (max-width: 600px) {
+.btnWraps {
+  @apply flex max-sm:mt-1;
+  height: 50px;
+}
+
+.navStyle {
+  @apply p-3 flex justify-between max-sm:flex-col;
+  align-items: center;
+}
+
+@media (max-width: 640px) {
   .logo {
     @apply w-3/4; 
+  }
+  .navStyle {
+    align-items: flex-start;
   }
 }
 
