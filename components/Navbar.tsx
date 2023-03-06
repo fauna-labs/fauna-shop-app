@@ -1,10 +1,35 @@
 import { useState } from 'react';
 import Image from 'next/image';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 import marketIcon from "../public/market.svg";
 import filterIcon from "../public/filter.svg";
 import styles from "../styles/Nav.module.css";
 import Link from "next/link";
 
+
+const animatedComponents = makeAnimated();
+
+const categoryOptions = [
+  { value: 'clothing', label: 'Clothing' },
+  { value: 'electronics', label: 'Electronics' },
+  { value: 'furniture', label: 'Furniture' },
+  { value: 'jewelry', label: 'Jewelry' },
+];
+
+const countryOptions = [
+  { value: 'usa', label: 'USA' },
+  { value: 'canada', label: 'Canada' },
+  { value: 'mexico', label: 'Mexico' },
+  { value: 'germany', label: 'Germany' },
+  { value: 'france', label: 'France' },
+  { value: 'spain', label: 'Spain' },
+  { value: 'italy', label: 'Italy' },
+  { value: 'uk', label: 'UK' },
+  { value: 'finland', label: 'Finland' },
+  { value: 'sweden', label: 'Sweden' },
+  { value: 'norway', label: 'Norway' },
+];
 
 export default function Navbar() {
   const [showFilter, setShowFilter] = useState(false);
@@ -50,6 +75,7 @@ export default function Navbar() {
 
       {/* Search Filters */}
       {showFilter && (
+        <>
         <div className={styles.filterContainer}>
           <div>
             <h3>Price $</h3>
@@ -64,11 +90,43 @@ export default function Navbar() {
               className="p-1 border border-gray-800 rounded-md mb-1"
             />
           </div>
-          <button className="border border-gray-800 rounded-md p-2 hover:bg-gray-200" >Apply</button>
+          <div className="mr-2 mb-2 w-full">
+            <h3>Category</h3>
+            <Select
+              closeMenuOnSelect={false}
+              components={animatedComponents}
+              isMulti
+              options={categoryOptions}
+            />
+          </div>
+          <div className="mr-2 mb-2 w-full">
+            <h3>Deliver to</h3>
+            <Select
+              closeMenuOnSelect={true}
+              isSearchable={true}
+              components={animatedComponents}
+              options={countryOptions}
+            />
+          </div>
+          <div className="flex flex-col w-2/4 justify-center pb-2">
+            <div>
+              <input type="checkbox" className="p-1"/>
+              <span className="ml-1">Free Delivery</span>
+            </div>
+            <div>
+              <input type="checkbox" className="p-1"/>
+              <span className="ml-1">On Sale</span>
+            </div>
+          </div>
         </div>
+        <button 
+          className="ml-2 mb-1 border border-gray-800 rounded-md p-2 hover:bg-gray-200"
+          onClick={() => setShowFilter(!showFilter)}
+        >
+            Clear Filters
+        </button>
+        </>
       )}
-
-
     </div>
   )
 }
