@@ -5,7 +5,8 @@ import makeAnimated from 'react-select/animated';
 import marketIcon from "../public/market.svg";
 import filterIcon from "../public/filter.svg";
 import styles from "../styles/Nav.module.css";
-import Link from "next/link";
+import Link from 'next/link';
+import LoginSignup from './LoginSignup';
 
 
 const animatedComponents = makeAnimated();
@@ -50,6 +51,7 @@ const initialStateFilters = {
 export default function Navbar() {
   const [showFilter, setShowFilter] = useState(false);
   const [searchFilters, setSearchFilters] = useState(initialStateFilters);
+  const [openLogin, setOpenLogin] = useState(false);
 
   const selectCategoryRef = useRef(null);
   const selectCountryRef = useRef(null);
@@ -118,6 +120,7 @@ export default function Navbar() {
   }
   
   return (
+    <>
     <div className="container mx-auto">
       <nav className={styles.navStyle}>
         <div className="flex w-3/4 max-sm:w-full">
@@ -156,7 +159,15 @@ export default function Navbar() {
               alt="market Icon"
             />
           </button>
-          <button className="border border-gray-800 rounded-md p-2 hover:bg-gray-200">Login</button>
+          <button 
+            className="border border-gray-800 rounded-md p-2 hover:bg-gray-200"
+            onClick={() => {
+              setShowFilter(false);
+              setOpenLogin(true);
+            }}
+          >
+            Login
+          </button>
         </div>
       </nav>
 
@@ -238,5 +249,11 @@ export default function Navbar() {
         </>
       )}
     </div>
+    {
+        openLogin && (
+          <LoginSignup onClose={() => setOpenLogin(false)}/>
+        )
+      }
+    </>
   )
 }

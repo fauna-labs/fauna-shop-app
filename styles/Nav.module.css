@@ -41,6 +41,28 @@
   padding-bottom: 15px;
 }
 
+.mainModal {
+  background-color: rgba(0,0,0,0.4);
+  width: 100vw;
+  height: 110vh;
+  position: absolute;
+  overflow: hidden;
+  z-index: 1;
+  transform: translateY(-140px);
+}
+
+.modal {
+  @apply bg-white p-3 rounded-lg;
+  width: 50%;
+  height: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  max-width: 600px;
+}
+
 @media (max-width: 640px) {
   .logo {
     @apply w-3/4; 
@@ -54,6 +76,12 @@
 
   .filterContainer button {
     width: 100%;
+  }
+
+  .modal {
+    top: 40%;
+    width: 90%;
+    height: 70%;
   }
 }
 
