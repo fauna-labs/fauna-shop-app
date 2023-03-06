@@ -30,12 +30,24 @@
   align-items: center;
 }
 
+.filterContainer {
+  @apply flex p-3 justify-between max-sm:flex-col;
+  align-items: center;
+}
+
 @media (max-width: 640px) {
   .logo {
     @apply w-3/4; 
   }
   .navStyle {
     align-items: flex-start;
+  }
+  .filterContainer {
+    align-items: flex-start;
+  }
+
+  .filterContainer button {
+    width: 100%;
   }
 }
 
