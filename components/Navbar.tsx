@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Image from 'next/image';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
@@ -10,14 +10,19 @@ import Link from "next/link";
 
 const animatedComponents = makeAnimated();
 
-const categoryOptions = [
+type SearchOptions = {
+  value: string;
+  label: string;
+}
+
+const categoryOptions: SearchOptions[] = [
   { value: 'clothing', label: 'Clothing' },
   { value: 'electronics', label: 'Electronics' },
   { value: 'furniture', label: 'Furniture' },
   { value: 'jewelry', label: 'Jewelry' },
 ];
 
-const countryOptions = [
+const countryOptions: SearchOptions[] = [
   { value: 'usa', label: 'USA' },
   { value: 'canada', label: 'Canada' },
   { value: 'mexico', label: 'Mexico' },
@@ -31,10 +36,87 @@ const countryOptions = [
   { value: 'norway', label: 'Norway' },
 ];
 
+const initialStateFilters = {
+  price: {
+    min: 0,
+    max: 999999
+  },
+  category: [] as string[],
+  deliverTo: '',
+  freeDelivery: false,
+  onSale: false
+};
+
 export default function Navbar() {
   const [showFilter, setShowFilter] = useState(false);
-  
+  const [searchFilters, setSearchFilters] = useState(initialStateFilters);
 
+  const selectCategoryRef = useRef(null);
+  const selectCountryRef = useRef(null);
+
+  const submitSearch = () => {
+    if(searchFilters.price.max < searchFilters.price.min) {
+      return;
+    }
+    console.log(searchFilters);
+  };
+
+  const handleCountryChange = (e: any) => {
+    setSearchFilters({
+      ...searchFilters,
+      deliverTo: e?.value
+    });
+  };
+
+  const handleCategoryChange = (e: any) => {
+    setSearchFilters({
+      ...searchFilters,
+      category: e?.map((item: SearchOptions) => item.value)
+    });
+  };
+
+  const handleDeliveryChange = (e: any) => {
+    setSearchFilters({
+      ...searchFilters,
+      freeDelivery: e.target.checked
+    });
+  };
+
+  const handleOnSaleChange = (e: any) => {
+    setSearchFilters({
+      ...searchFilters,
+      onSale: e.target.checked
+    });
+  }
+
+  const handlePriceMinChange = (e: any) => {
+    setSearchFilters({
+      ...searchFilters,
+      price: {
+        ...searchFilters.price,
+        min: parseFloat(e.target.value),
+      }
+    });
+  }
+
+  const handlePriceMaxChange = (e: any) => {
+    setSearchFilters({
+      ...searchFilters,
+      price: {
+        ...searchFilters.price,
+        max: parseFloat(e.target.value),
+      }
+    });
+  }
+
+  const resetFilters = () => {
+    let selectedCategory = selectCategoryRef?.current as any;
+    let selectedCountry = selectCountryRef?.current as any;
+    selectedCategory.clearValue();
+    selectedCountry.clearValue();
+    setSearchFilters(initialStateFilters);
+  }
+  
   return (
     <div className="container mx-auto">
       <nav className={styles.navStyle}>
@@ -54,7 +136,12 @@ export default function Navbar() {
             className={styles.search}
             placeholder="Search..."
           />
-          <button className={styles.searchBtn}>🔍</button>
+          <button 
+            className={styles.searchBtn}
+            onClick={submitSearch}
+          >
+            🔍
+          </button>
         </div>
         <div className={styles.btnWraps}>
           <button 
@@ -83,11 +170,20 @@ export default function Navbar() {
               type="number" 
               placeholder="Min $" 
               className="p-1 border border-gray-800 rounded-md mb-1 mr-1"
+              onChange={handlePriceMinChange}
+              value={searchFilters.price.min}
             />
             <input 
               type="number" 
               placeholder="Max $" 
-              className="p-1 border border-gray-800 rounded-md mb-1"
+              className={
+                `p-1 border border-gray-800 rounded-md mb-1 mr-1 ${
+                  searchFilters.price.max < searchFilters.price.min && 
+                  'focus:outline-none focus:border-red-500'
+                }`
+              }
+              onChange={handlePriceMaxChange}
+              value={searchFilters.price.max}
             />
           </div>
           <div className="mr-2 mb-2 w-full">
@@ -97,6 +193,8 @@ export default function Navbar() {
               components={animatedComponents}
               isMulti
               options={categoryOptions}
+              onChange={handleCategoryChange}
+              ref={selectCategoryRef}
             />
           </div>
           <div className="mr-2 mb-2 w-full">
@@ -106,22 +204,34 @@ export default function Navbar() {
               isSearchable={true}
               components={animatedComponents}
               options={countryOptions}
+              onChange={handleCountryChange}
+              ref={selectCountryRef}
             />
           </div>
           <div className="flex flex-col w-2/4 justify-center pb-2">
             <div>
-              <input type="checkbox" className="p-1"/>
+              <input 
+                type="checkbox" 
+                className="p-1"
+                onChange={handleDeliveryChange}
+                checked={searchFilters.freeDelivery ? true : false}
+              />
               <span className="ml-1">Free Delivery</span>
             </div>
             <div>
-              <input type="checkbox" className="p-1"/>
+              <input 
+                type="checkbox" 
+                className="p-1"
+                onChange={handleOnSaleChange}
+                checked={searchFilters.onSale ? true : false}
+              />
               <span className="ml-1">On Sale</span>
             </div>
           </div>
         </div>
         <button 
           className="ml-2 mb-1 border border-gray-800 rounded-md p-2 hover:bg-gray-200"
-          onClick={() => setShowFilter(!showFilter)}
+          onClick={resetFilters}
         >
             Clear Filters
         </button>
