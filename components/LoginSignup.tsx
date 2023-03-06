@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "../styles/Nav.module.css";
 import Image from 'next/image';
 import crossIcon from "../public/cross.svg";
+import { useUserContext } from '../store/state';
 
 const inputStyles = `
 p-2 mb-2 mt-2 rounded-lg border border-gray-800 w-full focus:outline-none focus:ring focus:ring-violet-300
@@ -11,9 +12,15 @@ const btnStyles = `mb-1 mt-2 border border-gray-800 rounded-md p-2 hover:bg-gray
 export default function LoginSignup({ onClose } : { onClose: () => void }) {
   const [showSignup, setShowSignup] = useState(false);
 
+  const userCtx = useUserContext() as any;
+  const { user, setUser } = userCtx;
+
   const doSignup = (e: any) => {
     e.preventDefault();
-    console.log(e.target.username.value);
+    setUser({
+      username: "Shadid",
+      token: "1234567890"
+    });
   }
 
   return (
