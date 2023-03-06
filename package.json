@@ -6,7 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "fauna": "github:fauna/fauna-js",
+    "@fauna/fauna": "file:../fauna-js",
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0",
