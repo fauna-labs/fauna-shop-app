@@ -51,6 +51,7 @@ export default function LoginSignup({ onClose } : { onClose: () => void }) {
         query: `Login("${email}", "${password}")`
       })
       console.log('response', response);
+      window.localStorage.setItem('fauna-marketplace', JSON.stringify(response));
       setUser(response);
       alert("Login successful!");
       onClose();

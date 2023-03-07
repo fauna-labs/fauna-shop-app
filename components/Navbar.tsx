@@ -25,7 +25,7 @@ const categoryOptions: SearchOptions[] = [
   { value: 'jewelry', label: 'Jewelry' },
 ];
 
-const countryOptions: SearchOptions[] = [
+export const countryOptions: SearchOptions[] = [
   { value: 'usa', label: 'USA' },
   { value: 'canada', label: 'Canada' },
   { value: 'mexico', label: 'Mexico' },
@@ -60,8 +60,6 @@ export default function Navbar() {
 
   const userCtx = useUserContext() as any;
   const { user, setUser } = userCtx;
-
-  console.log('user ==> Nav', user);
 
 
   const submitSearch = () => {
@@ -183,6 +181,7 @@ export default function Navbar() {
                 <button 
                   className="border border-pink-200 rounded-md p-2 hover:bg-red-200"
                   onClick={() => {
+                    window.localStorage.removeItem('fauna-marketplace');
                     setUser(null);
                   }}
                 >
