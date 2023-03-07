@@ -13,12 +13,12 @@ import { useUserContext } from '../store/state';
 
 const animatedComponents = makeAnimated();
 
-type SearchOptions = {
+export type SearchOptions = {
   value: string;
   label: string;
 }
 
-const categoryOptions: SearchOptions[] = [
+export const categoryOptions: SearchOptions[] = [
   { value: 'clothing', label: 'Clothing' },
   { value: 'electronics', label: 'Electronics' },
   { value: 'furniture', label: 'Furniture' },
