@@ -175,7 +175,6 @@ export default function Navbar() {
                     height={30}
                     width={30}
                     alt="market Icon"
-                    className={styles.img}
                   /> 
                 </Link>
                 <button 
