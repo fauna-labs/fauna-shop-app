@@ -85,27 +85,34 @@ export default function ProductPage() {
 
   
   return (
-    <div className="p-2 container mx-auto">
-      <h1 className=" text-xl">{product.name}</h1>
-      <p className=" text-md">{product.description}</p>
-      <p className=" text-md">{product.price}</p>
+    <>
+    <div className="flex p-2 container mx-auto">
+      
       <div>
-        <button 
-          className="border border-gray-800 rounded-md p-1 hover:bg-gray-200"
-          onClick={() => setEdit(!edit)}
-        >
-            <span className="text-md">Edit</span>
-        </button>
-        <button 
-          className="border border-red-800 rounded-md p-1 ml-2 hover:bg-red-200"
-          onClick={deleteProduct}
-        >
-            <span className="text-md">Delete</span>
-        </button>
+        <img src={product.img} alt={product.name} className="w-32 h-45 mr-2"/>
       </div>
-
-      {edit && (
-        <div className="mt-4">
+      <div>
+        <h1 className=" text-xl">{product.name}</h1>
+        <p className=" text-md">{product.description}</p>
+        <p className=" text-md">{product.price}</p>
+        <div>
+          <button 
+            className="border border-gray-800 rounded-md p-1 hover:bg-gray-200"
+            onClick={() => setEdit(!edit)}
+          >
+              <span className="text-md">Edit</span>
+          </button>
+          <button 
+            className="border border-red-800 rounded-md p-1 ml-2 hover:bg-red-200"
+            onClick={deleteProduct}
+          >
+              <span className="text-md">Delete</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    {edit && (
+        <div className="mt-4 p-2 container mx-auto">
           <h1 className=" text-xl">Edit Product</h1>
 
           <form className="p-2 flex flex-col" onSubmit={editProduct}>
@@ -162,6 +169,6 @@ export default function ProductPage() {
           </form>
         </div>
       )}
-    </div>
+    </>
   )
 }

@@ -14,7 +14,6 @@ export default function ShopById() {
 
   const [shop, setShop] = useState<any>({});
   const [products, setProducts] = useState<any>([]);
-
   const client = new Client({ 
     endpoint: process.env.NEXT_PUBLIC_FAUNA_ENDPOINT as any,
     secret: user?.data ? user.data.secret : process.env.NEXT_PUBLIC_FAUNA_SECRET as any,
@@ -29,7 +28,7 @@ export default function ShopById() {
     try {
       const response = await client.query({
         query: `
-        let shop = Shop.byId("358520717703118925")
+        let shop = Shop.byId("${id}")
         let products = Product.all.where(.shop == shop)
 
         let result = {
@@ -57,16 +56,27 @@ export default function ShopById() {
         className="border border-gray-800 rounded-md p-1 hover:bg-gray-200">
         <span className="text-md">Add Products</span>
       </Link>
+      <Link 
+        className="ml-2 border border-gray-800 rounded-md p-1 hover:bg-purple-200 cursor-pointer"
+        href={`/shops/${shop.id}/edit`}
+      >
+        Edit
+      </Link>
       <div className="grid grid-cols-4 gap-4 max-sm:grid-cols-2 mt-4">
         {
           products.map((product: any) => (
             <Link 
               key={product.id}
               href={`/shops/${id}/products/${product.id}`}
-              className="border border-gray-900 p-3 rounded-md max-w-xs cursor-pointer hover:bg-gray-200">
-              <h1 className="text-xl">{product.name}</h1>
-              <p className="text-sm">{product.description}</p>
-              <p className="text-sm">$ {product.price}</p>
+              className="flex flex-col border border-gray-900 p-3 rounded-md max-w-xs cursor-pointer hover:bg-gray-200">
+              <div>
+                <h1 className="text-xl">{product.name}</h1>
+                <p className="text-sm">{product.description}</p>
+                <p className="text-sm">$ {product.price}</p>
+              </div>
+              <div className="flex justify-center	">
+                <img src={product.img} alt={product.name} className="w-32 h-44" />
+              </div>
             </Link>
           ))
         }
