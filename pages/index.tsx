@@ -24,7 +24,10 @@ const Home: NextPage = () => {
   const searchProduct = async () => {
     try {
       const response = await client.query({
-        query: `Product.all.where(.price > ${router.query.priceMin} && .price < ${router.query.priceMax} )`
+        query: `Product.all.where(
+          (.price > ${router.query.priceMin} && .price < ${router.query.priceMax} ) &&
+          (.name.toLowerCase().includes("${router.query.searchTerm}"))
+        )`
       })
       console.log('Product :-', response);
       setProducts(response.data.data);

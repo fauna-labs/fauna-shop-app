@@ -142,7 +142,7 @@ export default function Navbar() {
             placeholder="Search..."
             onChange={(e) => setSearchFilters({
               ...searchFilters,
-              searchTerm: e.target.value
+              searchTerm: e.target.value.toLowerCase()
             })}
           />
           <button 
