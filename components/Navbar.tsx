@@ -9,6 +9,7 @@ import styles from "../styles/Nav.module.css";
 import Link from 'next/link';
 import LoginSignup from './LoginSignup';
 import { useUserContext } from '../store/state';
+import { useRouter } from 'next/router';
 
 
 const animatedComponents = makeAnimated();
@@ -40,20 +41,21 @@ export const countryOptions: SearchOptions[] = [
 ];
 
 const initialStateFilters = {
-  price: {
-    min: 0,
-    max: 999999
-  },
+  priceMin: 0,
+  priceMax: 999999,
   category: [] as string[],
   deliverTo: '',
   freeDelivery: false,
-  onSale: false
+  onSale: false,
+  searchTerm: ''
 };
 
 export default function Navbar() {
   const [showFilter, setShowFilter] = useState(false);
   const [searchFilters, setSearchFilters] = useState(initialStateFilters);
   const [openLogin, setOpenLogin] = useState(false);
+
+  const router = useRouter();
 
   const selectCategoryRef = useRef(null);
   const selectCountryRef = useRef(null);
@@ -63,10 +65,10 @@ export default function Navbar() {
 
 
   const submitSearch = () => {
-    if(searchFilters.price.max < searchFilters.price.min) {
+    if(searchFilters.priceMax < searchFilters.priceMin) {
       return;
     }
-    console.log(searchFilters);
+    router.push(`/?${new URLSearchParams(searchFilters as any).toString()}`);
   };
 
   const handleCountryChange = (e: any) => {
@@ -100,20 +102,14 @@ export default function Navbar() {
   const handlePriceMinChange = (e: any) => {
     setSearchFilters({
       ...searchFilters,
-      price: {
-        ...searchFilters.price,
-        min: parseFloat(e.target.value),
-      }
+      priceMin: parseFloat(e.target.value),
     });
   }
 
   const handlePriceMaxChange = (e: any) => {
     setSearchFilters({
       ...searchFilters,
-      price: {
-        ...searchFilters.price,
-        max: parseFloat(e.target.value),
-      }
+      priceMax: parseFloat(e.target.value)
     });
   }
 
@@ -144,6 +140,10 @@ export default function Navbar() {
           <input 
             className={styles.search}
             placeholder="Search..."
+            onChange={(e) => setSearchFilters({
+              ...searchFilters,
+              searchTerm: e.target.value
+            })}
           />
           <button 
             className={styles.searchBtn}
@@ -213,19 +213,19 @@ export default function Navbar() {
               placeholder="Min $" 
               className="p-1 border border-gray-800 rounded-md mb-1 mr-1"
               onChange={handlePriceMinChange}
-              value={searchFilters.price.min}
+              value={searchFilters.priceMin}
             />
             <input 
               type="number" 
               placeholder="Max $" 
               className={
                 `p-1 border border-gray-800 rounded-md mb-1 mr-1 ${
-                  searchFilters.price.max < searchFilters.price.min && 
+                  searchFilters.priceMax < searchFilters.priceMin && 
                   'focus:outline-none focus:border-red-500'
                 }`
               }
               onChange={handlePriceMaxChange}
-              value={searchFilters.price.max}
+              value={searchFilters.priceMax}
             />
           </div>
           <div className="mr-2 mb-2 w-full">
