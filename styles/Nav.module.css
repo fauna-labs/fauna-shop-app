@@ -63,6 +63,11 @@
   max-width: 400px;
 }
 
+.shopBtn {
+  @apply flex mr-2 p-2 border border-gray-800 rounded-md hover:bg-gray-200;
+
+}
+
 @media (max-width: 640px) {
   .logo {
     @apply w-3/4; 

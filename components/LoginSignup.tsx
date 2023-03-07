@@ -3,12 +3,17 @@ import styles from "../styles/Nav.module.css";
 import Image from 'next/image';
 import crossIcon from "../public/cross.svg";
 import { useUserContext } from '../store/state';
-import { Client, fql } from '@fauna/fauna';
+import { Client } from '@fauna/fauna';
 
 const inputStyles = `
 p-2 mb-2 mt-2 rounded-lg border border-gray-800 w-full focus:outline-none focus:ring focus:ring-violet-300
 `
 const btnStyles = `mb-1 mt-2 border border-gray-800 rounded-md p-2 hover:bg-gray-200`
+
+const client = new Client({ 
+  endpoint: process.env.NEXT_PUBLIC_FAUNA_ENDPOINT as any,
+  secret: process.env.NEXT_PUBLIC_FAUNA_SECRET as any,
+});
 
 export default function LoginSignup({ onClose } : { onClose: () => void }) {
   const [showSignup, setShowSignup] = useState(false);
@@ -19,27 +24,39 @@ export default function LoginSignup({ onClose } : { onClose: () => void }) {
   });
 
   const userCtx = useUserContext() as any;
-  const { user, setUser } = userCtx;
+  const { setUser } = userCtx;
 
   const doSignup = async (e: any) => {
     e.preventDefault();
-    console.log('do signup', state);
-    
-    const client = new Client({ 
-      endpoint: process.env.NEXT_PUBLIC_FAUNA_ENDPOINT as any,
-      secret: process.env.NEXT_PUBLIC_FAUNA_SECRET as any,
-    });
 
     const { username, email, password } = state;
     try {
-      const response = await client.query(fql`
-        Signup("${username}", "${email}", "${password}")
-      `)
+      const response = await client.query({
+        query: `Signup("${username}", "${email}", "${password}")`
+      })
       console.log('response', response);
       alert("Signup successful! Please login now.");
       setShowSignup(false)
     } catch (error) {
       alert("Somehting went wrong");
+    }
+  }
+
+  const doLogin = async (e: any) => {
+    e.preventDefault();
+
+    const { email, password } = state;
+    try {
+      const response = await client.query({
+        query: `Login("${email}", "${password}")`
+      })
+      console.log('response', response);
+      setUser(response);
+      alert("Login successful!");
+      onClose();
+    } catch (error) {
+      console.log('error', error);
+      alert("Invalid username or password");
     }
   }
 
@@ -113,14 +130,25 @@ export default function LoginSignup({ onClose } : { onClose: () => void }) {
         ) : (
           <div className="flex flex-col p-3">
             <h2 className="text-xl pb-2 pt-2">Login</h2>
-            <form onSubmit={doSignup} className="flex flex-col">
+            <form onSubmit={doLogin} className="flex flex-col">
               <div className="flex flex-col">
                 <label htmlFor="email">Email</label>
-                <input placeholder="jon@email.com" name="email" className={inputStyles}/>
+                <input 
+                  placeholder="jon@email.com" 
+                  name="email" 
+                  className={inputStyles}
+                  onChange={handleChange}
+                />
               </div>
               <div className="flex flex-col">
                 <label htmlFor="email">Password</label>
-                <input type="password" name="password" placeholder="Password" className={inputStyles}/>
+                <input 
+                  type="password" 
+                  name="password" 
+                  placeholder="Password" 
+                  className={inputStyles}
+                  onChange={handleChange}
+                />
               </div>
               <button type="submit" className={btnStyles}>Login</button>
             </form>

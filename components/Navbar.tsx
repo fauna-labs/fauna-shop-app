@@ -4,9 +4,11 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import marketIcon from "../public/market.svg";
 import filterIcon from "../public/filter.svg";
+import shopIcon from "../public/shop.svg";
 import styles from "../styles/Nav.module.css";
 import Link from 'next/link';
 import LoginSignup from './LoginSignup';
+import { useUserContext } from '../store/state';
 
 
 const animatedComponents = makeAnimated();
@@ -55,6 +57,12 @@ export default function Navbar() {
 
   const selectCategoryRef = useRef(null);
   const selectCountryRef = useRef(null);
+
+  const userCtx = useUserContext() as any;
+  const { user, setUser } = userCtx;
+
+  console.log('user ==> Nav', user);
+
 
   const submitSearch = () => {
     if(searchFilters.price.max < searchFilters.price.min) {
@@ -159,15 +167,40 @@ export default function Navbar() {
               alt="market Icon"
             />
           </button>
-          <button 
-            className="border border-gray-800 rounded-md p-2 hover:bg-gray-200"
-            onClick={() => {
-              setShowFilter(false);
-              setOpenLogin(true);
-            }}
-          >
-            Login
-          </button>
+          {
+            user?.data ? (
+              <>
+                <Link href="/myshops" className={styles.shopBtn}>
+                  <Image
+                    priority
+                    src={shopIcon}
+                    height={30}
+                    width={30}
+                    alt="market Icon"
+                    className={styles.img}
+                  /> 
+                </Link>
+                <button 
+                  className="border border-pink-200 rounded-md p-2 hover:bg-red-200"
+                  onClick={() => {
+                    setUser(null);
+                  }}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <button 
+                className="border border-gray-800 rounded-md p-2 hover:bg-gray-200"
+                onClick={() => {
+                  setShowFilter(false);
+                  setOpenLogin(true);
+                }}
+              >
+                Login
+              </button>
+            )
+          }
         </div>
       </nav>
 
@@ -253,7 +286,7 @@ export default function Navbar() {
         openLogin && (
           <LoginSignup onClose={() => setOpenLogin(false)}/>
         )
-      }
+    }
     </>
   )
 }
