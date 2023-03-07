@@ -23,13 +23,21 @@ const Home: NextPage = () => {
 
   const searchProduct = async () => {
     try {
+      let categories = router.query.category as string;
+      const categoryArray = JSON.stringify(categories.split(','));
       const response = await client.query({
-        query: `Product.all.where(
+        query: `
+        let matchCat = ${categoryArray}
+        Product.all.where(
           (.price > ${router.query.priceMin} && .price < ${router.query.priceMax} ) &&
           (.name.toLowerCase().includes("${router.query.searchTerm}"))
-        )`
+        )
+        .where(p => 
+          matchCat.map(c => p.category.includes(c)).includes(true)
+        )
+        .order(desc(.ts))
+        `
       })
-      console.log('Product :-', response);
       setProducts(response.data.data);
     } catch (error) {
       console.log('error', error);
@@ -40,7 +48,7 @@ const Home: NextPage = () => {
   const getAllProduct = async () => {
     try {
       const response = await client.query({
-        query: `Product.all`
+        query: `Product.all.order(asc(.ts))`
       })
       console.log('All Products :-', response.data.data);
       setProducts(response.data.data);

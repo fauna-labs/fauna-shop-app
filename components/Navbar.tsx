@@ -119,6 +119,7 @@ export default function Navbar() {
     selectedCategory.clearValue();
     selectedCountry.clearValue();
     setSearchFilters(initialStateFilters);
+    router.push('/');
   }
   
   return (
