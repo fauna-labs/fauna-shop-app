@@ -3,7 +3,7 @@ import Select from 'react-select';
 import { countryOptions } from "../../components/Navbar";
 import makeAnimated from 'react-select/animated';
 import { useUserContext } from "../../store/state";
-import { Client } from '@fauna/fauna';
+import { Client } from 'fauna';
 import { useRouter } from "next/router";
 
 

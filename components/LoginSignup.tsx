@@ -3,7 +3,7 @@ import styles from "../styles/Nav.module.css";
 import Image from 'next/image';
 import crossIcon from "../public/cross.svg";
 import { useUserContext } from '../store/state';
-import { Client } from '@fauna/fauna';
+import { Client } from 'fauna';
 
 const inputStyles = `
 p-2 mb-2 mt-2 rounded-lg border border-gray-800 w-full focus:outline-none focus:ring focus:ring-violet-300

@@ -1,4 +1,4 @@
-import { Client } from '@fauna/fauna';
+import { Client } from 'fauna';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useUserContext } from "../store/state";
