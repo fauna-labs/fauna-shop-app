@@ -1,27 +1,18 @@
-# Next.js + Tailwind CSS Example
+# Fauna Sample App
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.2)](https://tailwindcss.com/blog/tailwindcss-v3-2) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+This example application demonstrates how to build a real-world application with Fauna and Next.js. Fauna is a globally distributed serverless database designed to combine the flexibility of NoSQL systems with the relational query and ACID consistency of SQL databases.
 
-## Deploy your own
+Delivered as a secure and scalable cloud API, Fauna stores data close to your user (on the Edge), auto-scales and can connect to any applications over HTTPS.
+This example application is a multi-vendor e-commerce marketplace (similar to Etsy).
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+## Live Application
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+You can checkout the live deployment of this app in this link.
 
-## How to use
+## Setting up locally
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+### Pre-requisites
 
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-```
-
-```bash
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-```
-
-```bash
-pnpm create next-app --example with-tailwindcss with-tailwindcss-app
-```
-
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+- Node.js 18^
+- Basic knowledge of React/Next.js
+- Basic knowledge of FQL X (Fauna Query Language)
