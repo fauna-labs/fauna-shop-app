@@ -31,7 +31,13 @@
 }
 
 .filterContainer {
-  @apply flex p-3 justify-between max-sm:flex-col;
+  @apply flex p-3 flex-col;
+  align-items: center;
+}
+
+.category {
+  @apply mr-2 mb-2;
+  max-width: 385px;
 }
 
 .applyBtn {

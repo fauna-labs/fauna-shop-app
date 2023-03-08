@@ -88,20 +88,6 @@ export default function Navbar() {
     });
   };
 
-  const handleDeliveryChange = (e: any) => {
-    setSearchFilters({
-      ...searchFilters,
-      freeDelivery: e.target.checked
-    });
-  };
-
-  const handleOnSaleChange = (e: any) => {
-    setSearchFilters({
-      ...searchFilters,
-      onSale: e.target.checked
-    });
-  }
-
   const handlePriceMinChange = (e: any) => {
     setSearchFilters({
       ...searchFilters,
@@ -118,9 +104,7 @@ export default function Navbar() {
 
   const resetFilters = () => {
     let selectedCategory = selectCategoryRef?.current as any;
-    let selectedCountry = selectCountryRef?.current as any;
     selectedCategory.clearValue();
-    selectedCountry.clearValue();
     setSearchFilters(initialStateFilters);
     router.push('/');
   }
@@ -229,27 +213,29 @@ export default function Navbar() {
         <div className={styles.filterContainer}>
           <div>
             <h3>Price $</h3>
-            <input 
-              type="number" 
-              placeholder="Min $" 
-              className="p-1 border border-gray-800 rounded-md mb-1 mr-1"
-              onChange={handlePriceMinChange}
-              value={searchFilters.priceMin}
-            />
-            <input 
-              type="number" 
-              placeholder="Max $" 
-              className={
-                `p-1 border border-gray-800 rounded-md mb-1 mr-1 ${
-                  searchFilters.priceMax < searchFilters.priceMin && 
-                  'focus:outline-none focus:border-red-500'
-                }`
-              }
-              onChange={handlePriceMaxChange}
-              value={searchFilters.priceMax}
-            />
+            <div className="flex">
+              <input 
+                type="number" 
+                placeholder="Min $" 
+                className="p-1 border border-gray-800 rounded-md mb-1 mr-1"
+                onChange={handlePriceMinChange}
+                value={searchFilters.priceMin}
+              />
+              <input 
+                type="number" 
+                placeholder="Max $" 
+                className={
+                  `p-1 border border-gray-800 rounded-md mb-1 mr-1 ${
+                    searchFilters.priceMax < searchFilters.priceMin && 
+                    'focus:outline-none focus:border-red-500'
+                  }`
+                }
+                onChange={handlePriceMaxChange}
+                value={searchFilters.priceMax}
+              />
+            </div>
           </div>
-          <div className="mr-2 mb-2 w-full">
+          <div className={styles.category}>
             <h3>Category</h3>
             <Select
               closeMenuOnSelect={false}
@@ -260,7 +246,13 @@ export default function Navbar() {
               ref={selectCategoryRef}
             />
           </div>
-          <div className="mr-2 mb-2 w-full">
+          <button 
+            className="ml-2 mb-1 border border-gray-800 rounded-md p-2 hover:bg-gray-200"
+            onClick={resetFilters}
+          >
+              Clear Filters
+          </button>
+          {/* <div className="mr-2 mb-2 w-full">
             <h3>Deliver to</h3>
             <Select
               closeMenuOnSelect={true}
@@ -270,8 +262,8 @@ export default function Navbar() {
               onChange={handleCountryChange}
               ref={selectCountryRef}
             />
-          </div>
-          <div className="flex flex-col w-2/4 justify-center pb-2">
+          </div> */}
+          {/* <div className="flex flex-col w-2/4 justify-center pb-2">
             <div>
               <input 
                 type="checkbox" 
@@ -290,14 +282,8 @@ export default function Navbar() {
               />
               <span className="ml-1">On Sale</span>
             </div>
-          </div>
+          </div> */}
         </div>
-        <button 
-          className="ml-2 mb-1 border border-gray-800 rounded-md p-2 hover:bg-gray-200"
-          onClick={resetFilters}
-        >
-            Clear Filters
-        </button>
         </>
       )}
     </div>
