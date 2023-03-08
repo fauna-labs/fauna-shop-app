@@ -2,11 +2,15 @@ import { Client } from 'fauna';
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useUserContext } from '../store/state';
 
 const Home: NextPage = () => {
   const router = useRouter();
 
   const [products, setProducts] = useState([] as any);
+
+  const userCtx = useUserContext() as any;
+  const { setCart } = userCtx;
 
   const client = new Client({ 
     endpoint: process.env.NEXT_PUBLIC_FAUNA_ENDPOINT as any,
@@ -58,6 +62,10 @@ const Home: NextPage = () => {
     }
   };
 
+  const addToCart = (product: any) => {
+    setCart((prev: any) => [...prev, product]);
+  };
+
   return (
     <div className="p-2 container mx-auto">
       <div className="grid grid-cols-4 gap-4 max-sm:grid-cols-2 mt-4">
@@ -73,7 +81,10 @@ const Home: NextPage = () => {
               </div>
               <div className="flex flex-col items-center justify-center">
                 <img src={product.img} alt={product.name} className="w-32 h-44" />
-                <button className="border border-gray-800 mt-2 rounded-md p-1 hover:bg-purple-200">
+                <button 
+                  className="border border-gray-800 mt-2 rounded-md p-1 hover:bg-purple-200"
+                  onClick={() => addToCart(product)}
+                >
                   <span className="text-md">Add to Cart</span>
                 </button>
               </div>

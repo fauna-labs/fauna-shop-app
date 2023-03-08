@@ -63,6 +63,12 @@
   max-width: 400px;
 }
 
+.badge {
+  @apply bg-purple-200 p-1 pr-2 pl-2 rounded-md;
+  position: absolute;
+  transform: translate(90%, -160%);
+}
+
 .shopBtn {
   @apply flex mr-2 p-2 border border-gray-800 rounded-md hover:bg-gray-200;
 }

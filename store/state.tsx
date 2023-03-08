@@ -4,6 +4,7 @@ const UserContext = createContext({});
 
 export default function AppStore({ children } : { children: React.ReactNode }) {
   const [user, setUser] = useState({});
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     const user = localStorage.getItem('fauna-marketplace') as any;
@@ -15,7 +16,9 @@ export default function AppStore({ children } : { children: React.ReactNode }) {
   return (
     <UserContext.Provider value={{
       user,
-      setUser
+      setUser,
+      cart,
+      setCart
     }}>
       {children}
     </UserContext.Provider>

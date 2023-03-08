@@ -4,6 +4,7 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import marketIcon from "../public/market.svg";
 import filterIcon from "../public/filter.svg";
+import cartIcon from "../public/cart.svg";
 import shopIcon from "../public/shop.svg";
 import styles from "../styles/Nav.module.css";
 import Link from 'next/link';
@@ -61,7 +62,9 @@ export default function Navbar() {
   const selectCountryRef = useRef(null);
 
   const userCtx = useUserContext() as any;
-  const { user, setUser } = userCtx;
+  const { user, setUser, cart } = userCtx;
+
+  console.log('cart ==>>>', cart);
 
 
   const submitSearch = () => {
@@ -166,6 +169,22 @@ export default function Navbar() {
               alt="market Icon"
             />
           </button>
+
+          <Link
+            className="border border-gray-800 rounded-md p-2 mr-3 hover:bg-gray-200"
+            href="/cart"
+          >
+            <Image 
+              priority
+              src={cartIcon}
+              height={30}
+              width={30}
+              alt="Cart Icon"
+            />
+            {
+              cart.length > 0 ? <span className={styles.badge}>{cart.length}</span> : null
+            }
+          </Link>
           {
             user?.data ? (
               <>
