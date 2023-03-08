@@ -202,6 +202,7 @@ export default function Navbar() {
                   onClick={() => {
                     window.localStorage.removeItem('fauna-marketplace');
                     setUser(null);
+                    alert('You have been logged out');
                   }}
                 >
                   Logout

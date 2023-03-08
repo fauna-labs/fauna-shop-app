@@ -23,7 +23,7 @@ export default function MyShopsPage() {
     try {
       const response = await client.query({
         query: `
-          let user = User.byId("358513799094861901")
+          let user = User.byId("${user.data.document.id}")
           Shop.all.where(.owner == user)
         `
       })
@@ -44,7 +44,15 @@ export default function MyShopsPage() {
   
   return (
     <div className="container mx-auto">
-      <h1 className="p-2 text-xl">Mange Your Shop(s)</h1>
+      <div className="flex mt-2 mb-2">
+        <h1 className="p-2 text-xl">Mange Your Shop(s)</h1>
+        <Link 
+          href="/shops/new" 
+          className="p-2 border border-gray-900 rounded-md max-w-sm cursor-pointer hover:bg-gray-200"
+        >
+          <span className="text-md">Create a Shop</span>
+        </Link>
+      </div>
       <div className="p-2 grid grid-cols-4 gap-4 max-sm:grid-cols-2">
         {
           shops.map((shop: any) => (

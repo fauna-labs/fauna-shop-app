@@ -31,11 +31,12 @@ export default function Cart() {
       ))}
       <hr />
       <div className="flex justify-end">
-        <h3>Total: $ {cart?.reduce((acc: any, item: any) => acc + item.price, 0)}</h3>
+        <h3>Total: $ {
+          cart?.reduce((acc: any, item: any) => acc + item.price, 0).toFixed(2)}</h3>
       </div>
       <div className="flex flex-col justify-end">
         <button 
-          className="border border-gray-800 rounded-md p-1 bg-purple-200 ml-2"
+          className="border-2 border-gray-800 rounded-md p-1 bg-purple-200 ml-2"
           onClick={itemPurchased}
         >
           <span className="text-md">Checkout</span>
