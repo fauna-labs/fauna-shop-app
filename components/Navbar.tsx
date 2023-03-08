@@ -59,8 +59,6 @@ export default function Navbar() {
   const router = useRouter();
 
   const selectCategoryRef = useRef(null);
-  const selectCountryRef = useRef(null);
-
   const userCtx = useUserContext() as any;
   const { user, setUser, cart } = userCtx;
 
@@ -157,6 +155,7 @@ export default function Navbar() {
           <Link
             className="border border-gray-800 rounded-md p-2 mr-3 hover:bg-gray-200"
             href="/cart"
+            onClick={() => setShowFilter(false)}
           >
             <Image 
               priority
@@ -172,7 +171,11 @@ export default function Navbar() {
           {
             user?.data ? (
               <>
-                <Link href="/myshops" className={styles.shopBtn}>
+                <Link 
+                  href="/myshops" 
+                  className={styles.shopBtn}
+                  onClick={() => setShowFilter(false)}
+                >
                   <Image
                     priority
                     src={shopIcon}
