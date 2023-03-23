@@ -29,7 +29,7 @@ export default function ShopById() {
       const response = await client.query({
         query: `
         let shop = Shop.byId("${id}")
-        let products = Product.all.where(.shop == shop)
+        let products = Product.all().where(.shop == shop)
 
         let result = {
           shop: shop,

@@ -24,7 +24,7 @@ export default function MyShopsPage() {
       const response = await client.query({
         query: `
           let user = User.byId("${user.data.document.id}")
-          Shop.all.where(.owner == user)
+          Shop.all().where(.owner == user)
         `
       })
       console.log('response: ==>', response);

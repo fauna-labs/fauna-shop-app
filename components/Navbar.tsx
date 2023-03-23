@@ -62,8 +62,6 @@ export default function Navbar() {
   const userCtx = useUserContext() as any;
   const { user, setUser, cart } = userCtx;
 
-  console.log('cart ==>>>', cart);
-
 
   const submitSearch = () => {
     if(searchFilters.priceMax < searchFilters.priceMin) {

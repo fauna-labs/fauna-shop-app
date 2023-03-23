@@ -33,7 +33,7 @@ const Home: NextPage = () => {
         const response = await client.query({
           query: `
           let matchCat = ${categoryArray}
-          Product.all.where(
+          Product.all().where(
             (.price > ${router.query.priceMin} && .price < ${router.query.priceMax} ) &&
             (.name.toLowerCase().includes("${router.query.searchTerm}"))
           ).order(desc(.ts))
@@ -44,7 +44,7 @@ const Home: NextPage = () => {
         const response = await client.query({
           query: `
           let matchCat = ${categoryArray}
-          Product.all.where(
+          Product.all().where(
             (.price > ${router.query.priceMin} && .price < ${router.query.priceMax} ) &&
             (.name.toLowerCase().includes("${router.query.searchTerm}"))
           )
@@ -65,9 +65,8 @@ const Home: NextPage = () => {
   const getAllProduct = async () => {
     try {
       const response = await client.query({
-        query: `Product.all.order(asc(.ts))`
-      })
-      console.log('All Products :-', response.data.data);
+        query: `Product.all()`
+      });
       setProducts(response.data.data);
     } catch (error) {
       console.log('error', error);
