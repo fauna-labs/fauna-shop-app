@@ -126,6 +126,15 @@ Function.byName("Login").update({
 })
 
 
+Shop.definition.update({
+  indexes: {
+    byShopOwner: {
+      terms: [{ "field": "owner" }]
+    }
+  }
+})
+
+
 
 LoginUser("341071393701494817", "sekrit")
 
